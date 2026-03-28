@@ -1,21 +1,824 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="scroll-smooth">
 <head>
-    <title>My Website</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEM GLOBAL LLP | Trusted Pharmaceutical Exports</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Blue theme matching the logo
+                        primary: {
+                            50: '#f0f6fc',
+                            100: '#e0edfa',
+                            200: '#c7e0f6',
+                            300: '#9ecdf0',
+                            400: '#70b3e7',
+                            500: '#4a97db',
+                            600: '#327ac9',
+                            700: '#2862a5',
+                            800: '#255389',
+                            900: '#0f3c6e', // Deep corporate blue
+                        },
+                        // Green from the logo for accents
+                        secondary: {
+                            500: '#69b844',
+                            600: '#559c34',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Page Transitions */
+        .page-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .page-content.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Carousel Animations */
+        .slide {
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            transform: scale(1.02);
+            z-index: 0;
+        }
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 10;
+        }
+        .slide-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out 0.3s;
+        }
+        .slide.active .slide-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased selection:bg-primary-200 selection:text-primary-900">
 
-<h1>Welcome to My Website</h1>
+    <!-- Top Bar (Contact Info) -->
+    <div class="bg-primary-900 text-white py-2 hidden md:block text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-6">
+                <span class="flex items-center"><i class="fa-solid fa-phone mr-2 text-primary-300"></i> +91 22 4567 8900</span>
+                <span class="flex items-center"><i class="fa-solid fa-envelope mr-2 text-primary-300"></i> exports@nemglobal.com</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="flex items-center"><i class="fa-solid fa-check-circle mr-2 text-secondary-500"></i> WHO-GMP Certified</span>
+                <span class="flex items-center"><i class="fa-solid fa-check-circle mr-2 text-secondary-500"></i> ISO 9001:2015</span>
+            </div>
+        </div>
+    </div>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="contact.html">Contact</a>
-</nav>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24">
+                <div class="flex items-center">
+                    <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center">
+                        <img src="1000355321.jpg" alt="NEM Global LLP Logo" class="h-16 w-auto object-contain">
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" onclick="navigateTo('home'); return false;" class="nav-link active text-primary-700 font-semibold hover:text-primary-600 transition-colors border-b-2 border-transparent hover:border-primary-600 pb-1" data-target="home">Home</a>
+                    <a href="#" onclick="navigateTo('about'); return false;" class="nav-link text-slate-600 font-semibold hover:text-primary-600 transition-colors border-b-2 border-transparent hover:border-primary-600 pb-1" data-target="about">About Us</a>
+                    <a href="#" onclick="navigateTo('services'); return false;" class="nav-link text-slate-600 font-semibold hover:text-primary-600 transition-colors border-b-2 border-transparent hover:border-primary-600 pb-1" data-target="services">Services & Products</a>
+                    <a href="#" onclick="navigateTo('contact'); return false;" class="nav-link text-slate-600 font-semibold hover:text-primary-600 transition-colors border-b-2 border-transparent hover:border-primary-600 pb-1" data-target="contact">Contact</a>
+                    <a href="#" onclick="navigateTo('contact'); return false;" class="bg-primary-700 hover:bg-primary-800 text-white px-6 py-2.5 rounded font-medium transition-all shadow-md flex items-center">
+                        Get a Quote <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
 
-<p>This is my first website.</p>
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-primary-700 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full z-50">
+            <div class="px-4 pt-2 pb-6 space-y-1 sm:px-3 flex flex-col gap-2">
+                <a href="#" onclick="navigateTo('home'); toggleMobileMenu(); return false;" class="nav-link-mobile block px-4 py-3 rounded text-base font-semibold text-primary-700 bg-primary-50" data-target="home">Home</a>
+                <a href="#" onclick="navigateTo('about'); toggleMobileMenu(); return false;" class="nav-link-mobile block px-4 py-3 rounded text-base font-semibold text-slate-600 hover:bg-slate-50" data-target="about">About Us</a>
+                <a href="#" onclick="navigateTo('services'); toggleMobileMenu(); return false;" class="nav-link-mobile block px-4 py-3 rounded text-base font-semibold text-slate-600 hover:bg-slate-50" data-target="services">Services</a>
+                <a href="#" onclick="navigateTo('contact'); toggleMobileMenu(); return false;" class="nav-link-mobile block px-4 py-3 rounded text-base font-semibold text-slate-600 hover:bg-slate-50" data-target="contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex flex-col">
+        
+        <!-- PAGE 1: HOME -->
+        <div id="page-home" class="page-content active flex-grow">
+            
+            <!-- Hero Carousel Section -->
+            <section class="relative h-[80vh] min-h-[500px] w-full bg-slate-900 overflow-hidden">
+                <div id="slider-container" class="relative w-full h-full">
+                    
+                    <!-- Slide 1 -->
+                    <div class="slide active absolute inset-0 w-full h-full">
+                        <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Pharmaceuticals" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-900/90 via-primary-900/70 to-transparent"></div>
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full slide-content">
+                                <span class="inline-block py-1 px-3 bg-secondary-500 text-white font-semibold text-sm mb-4 rounded border border-secondary-600">
+                                    <i class="fa-solid fa-globe mr-1"></i> Global Reach
+                                </span>
+                                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight max-w-3xl">
+                                    Trusted Exporter of <br/> Pharmaceuticals Worldwide
+                                </h1>
+                                <p class="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl font-light">
+                                    Supplying quality assured medicines to 50+ countries. Partner with a reliable Indian pharmaceutical exporter for regulated & semi-regulated markets.
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <a href="#" onclick="navigateTo('services'); return false;" class="bg-primary-600 hover:bg-primary-500 text-white px-8 py-3 rounded font-semibold text-lg transition-all shadow-lg text-center">
+                                        Explore Products
+                                    </a>
+                                    <a href="#" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-3 rounded font-semibold text-lg transition-all text-center flex items-center justify-center">
+                                        <i class="fa-solid fa-download mr-2"></i> Company Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide absolute inset-0 w-full h-full">
+                        <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" alt="Healthcare Professionals" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-900/90 via-primary-900/70 to-transparent"></div>
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full slide-content">
+                                <span class="inline-block py-1 px-3 bg-primary-600 text-white font-semibold text-sm mb-4 rounded">
+                                    <i class="fa-solid fa-shield-halved mr-1"></i> Quality Assured
+                                </span>
+                                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight max-w-3xl">
+                                    End-to-End Pharmaceutical <br/> Export Solutions
+                                </h1>
+                                <p class="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl font-light">
+                                    From manufacturing hubs in India to patients worldwide — we handle everything. Reliable supply chain, competitive pricing, and full compliance.
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <a href="#" onclick="navigateTo('contact'); return false;" class="bg-secondary-500 hover:bg-secondary-600 text-white px-8 py-3 rounded font-semibold text-lg transition-all shadow-lg text-center">
+                                        Send Enquiry
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide absolute inset-0 w-full h-full">
+                        <img src="https://images.unsplash.com/photo-1587370560942-ad2a04eabb6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Global Logistics" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-900/90 via-primary-900/70 to-transparent"></div>
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full slide-content">
+                                <span class="inline-block py-1 px-3 bg-white text-primary-900 font-semibold text-sm mb-4 rounded">
+                                    <i class="fa-solid fa-truck-fast mr-1"></i> Fast Delivery
+                                </span>
+                                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight max-w-3xl">
+                                    Delivering Quality Medicines <br/> Across Borders
+                                </h1>
+                                <p class="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl font-light">
+                                    Serving governments, hospitals, NGOs, and wholesalers with rapid shipping and real-time tracking from India to your doorstep.
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <a href="#" onclick="navigateTo('contact'); return false;" class="bg-primary-600 hover:bg-primary-500 text-white px-8 py-3 rounded font-semibold text-lg transition-all shadow-lg text-center">
+                                        Request Bulk Quote
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Carousel Controls -->
+                <button onclick="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all z-20">
+                    <i class="fa-solid fa-chevron-left text-xl"></i>
+                </button>
+                <button onclick="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all z-20">
+                    <i class="fa-solid fa-chevron-right text-xl"></i>
+                </button>
+                
+                <!-- Carousel Indicators -->
+                <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20" id="carousel-indicators">
+                    <button class="w-3 h-3 rounded-full bg-white transition-all indicator" onclick="goToSlide(0)"></button>
+                    <button class="w-3 h-3 rounded-full bg-white/40 transition-all indicator" onclick="goToSlide(1)"></button>
+                    <button class="w-3 h-3 rounded-full bg-white/40 transition-all indicator" onclick="goToSlide(2)"></button>
+                </div>
+            </section>
+
+            <!-- Stats / Trust Banner -->
+            <section class="bg-white border-b border-slate-200 shadow-sm relative z-20 -mt-6 mx-4 md:mx-8 rounded-lg">
+                <div class="max-w-7xl mx-auto px-4 py-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x divide-slate-100">
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-extrabold text-primary-700 mb-1">500+</h3>
+                            <p class="text-slate-500 font-medium text-sm md:text-base">Product Registrations</p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-extrabold text-primary-700 mb-1">50+</h3>
+                            <p class="text-slate-500 font-medium text-sm md:text-base">Countries Served</p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-extrabold text-primary-700 mb-1">15+</h3>
+                            <p class="text-slate-500 font-medium text-sm md:text-base">Years Experience</p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl md:text-4xl font-extrabold text-primary-700 mb-1">24/7</h3>
+                            <p class="text-slate-500 font-medium text-sm md:text-base">Regulatory Support</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Therapeutic Range -->
+            <section class="py-20 bg-slate-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-14">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Our Therapeutic Expertise</h2>
+                        <div class="w-20 h-1 bg-secondary-500 mx-auto rounded"></div>
+                        <p class="mt-4 text-slate-600 max-w-2xl mx-auto">Providing high-quality medicines across a wide range of medical categories.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                        <!-- Category 1 -->
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 text-center hover:shadow-lg hover:border-primary-300 transition-all group">
+                            <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-shield-virus text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-sm">Anti-Infectives</h3>
+                        </div>
+                        <!-- Category 2 -->
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 text-center hover:shadow-lg hover:border-primary-300 transition-all group">
+                            <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-heart-pulse text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-sm">Cardiovascular</h3>
+                        </div>
+                        <!-- Category 3 -->
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 text-center hover:shadow-lg hover:border-primary-300 transition-all group">
+                            <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-ribbon text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-sm">Oncology</h3>
+                        </div>
+                        <!-- Category 4 -->
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 text-center hover:shadow-lg hover:border-primary-300 transition-all group">
+                            <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-lungs text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-sm">Respiratory</h3>
+                        </div>
+                        <!-- Category 5 -->
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 text-center hover:shadow-lg hover:border-primary-300 transition-all group">
+                            <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-baby text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-sm">Pediatrics</h3>
+                        </div>
+                        <!-- Category 6 -->
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 text-center hover:shadow-lg hover:border-primary-300 transition-all group">
+                            <div class="w-14 h-14 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-pills text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-sm">Vitamins & Nutrition</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Choose Us -->
+            <section class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row gap-16 items-center">
+                        <div class="md:w-1/2">
+                            <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Global Operations" class="rounded-xl shadow-2xl">
+                        </div>
+                        <div class="md:w-1/2">
+                            <h2 class="text-3xl font-bold text-slate-900 mb-6">Why Importers Choose NEM Global LLP</h2>
+                            <p class="text-slate-600 mb-8 text-lg">We provide end-to-end solutions for pharmacies, distributors, and governments seeking reliable pharmaceutical supplies.</p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded bg-primary-100 flex items-center justify-center text-primary-600">
+                                            <i class="fa-solid fa-certificate"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Complete Compliance</h4>
+                                        <p class="text-slate-600 mt-1">WHO-GMP, ISO 9001:2015 certified facilities ensuring global quality standards.</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded bg-primary-100 flex items-center justify-center text-primary-600">
+                                            <i class="fa-solid fa-file-contract"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Regulatory Documentation</h4>
+                                        <p class="text-slate-600 mt-1">Full support with COPP, CTD dossiers, and Free Sales Certificates.</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded bg-primary-100 flex items-center justify-center text-primary-600">
+                                            <i class="fa-solid fa-plane-departure"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Seamless Logistics</h4>
+                                        <p class="text-slate-600 mt-1">Air & Sea freight handling with door-to-door delivery options available.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE 2: ABOUT -->
+        <div id="page-about" class="page-content bg-white flex-grow">
+            <!-- Header -->
+            <div class="bg-primary-900 py-20 border-b border-primary-800 relative overflow-hidden">
+                <!-- BG Pattern -->
+                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px;"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">About NEM GLOBAL LLP</h1>
+                    <p class="text-xl text-primary-200 max-w-2xl mx-auto">Your Bridge to Global Healthcare & Reliable Medicine Exports</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Our Mission & Vision</h2>
+                        <p class="text-slate-600 mb-6 leading-relaxed text-lg">
+                            At NEM Global LLP, our core philosophy is rooted in making high-quality, life-saving medicines accessible and affordable across the globe. Based in India, the pharmacy of the world, we specialize in the export of branded and generic pharmaceuticals.
+                        </p>
+                        <p class="text-slate-600 leading-relaxed text-lg mb-8">
+                            We act as a vital link between world-class WHO-GMP certified manufacturing facilities and healthcare providers in over 50 countries. Our robust supply chain and strict adherence to international regulatory norms make us the preferred partner for importers worldwide.
+                        </p>
+                        
+                        <div class="bg-slate-50 p-6 rounded-lg border-l-4 border-primary-600">
+                            <h4 class="font-bold text-slate-800 mb-2">Our Quality Policy</h4>
+                            <p class="text-slate-600 text-sm">"To consistently deliver pharmaceutical products that meet or exceed international quality standards, ensuring safety, efficacy, and timely delivery through continuous improvement and stringent regulatory compliance."</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laboratory" class="rounded-lg shadow-md w-full h-48 object-cover">
+                        <img src="https://images.unsplash.com/photo-1628771065518-0d82f1938462?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Pills" class="rounded-lg shadow-md w-full h-48 object-cover mt-8">
+                        <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Global Network" class="rounded-lg shadow-md w-full h-48 object-cover -mt-8">
+                        <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Warehouse" class="rounded-lg shadow-md w-full h-48 object-cover">
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="text-center mb-16 border-t border-slate-200 pt-16">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Quality Accreditations</h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto text-lg mb-10">Audited and approved for strict global markets.</p>
+                    
+                    <div class="flex flex-wrap justify-center gap-8 md:gap-16 items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                        <div class="text-center">
+                            <div class="w-24 h-24 border-2 border-slate-300 rounded-full flex items-center justify-center text-xl font-bold text-slate-500 mb-2">WHO</div>
+                            <span class="text-sm font-semibold">GMP Certified</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-24 h-24 border-2 border-slate-300 rounded-full flex items-center justify-center text-xl font-bold text-slate-500 mb-2">ISO</div>
+                            <span class="text-sm font-semibold">9001:2015</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-24 h-24 border-2 border-slate-300 rounded-full flex items-center justify-center text-xl font-bold text-slate-500 mb-2">GDP</div>
+                            <span class="text-sm font-semibold">Compliant</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-24 h-24 border-2 border-slate-300 rounded-full flex items-center justify-center text-xl font-bold text-slate-500 mb-2">FSSAI</div>
+                            <span class="text-sm font-semibold">Approved</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: SERVICES -->
+        <div id="page-services" class="page-content bg-slate-50 flex-grow">
+            <!-- Header -->
+            <div class="bg-primary-900 py-20 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 50px 50px;"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <span class="text-secondary-500 font-bold tracking-wider uppercase text-sm mb-4 block">End-to-End Solutions</span>
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Services & Products</h1>
+                    <p class="text-xl text-primary-200 max-w-2xl mx-auto">Comprehensive pharmaceutical export services tailored for distributors, institutions, and governments.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+                    <!-- Service 1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:shadow-xl hover:border-primary-400 transition-all duration-300">
+                        <div class="w-16 h-16 bg-primary-50 text-primary-600 rounded-lg flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-boxes-packing"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">Finished Formulations Export</h3>
+                        <p class="text-slate-600 mb-6 leading-relaxed">Supplying a vast range of finished dosage forms including tablets, capsules, injections, syrups, and ointments.</p>
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Branded & Generic Medicines</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Consolidating small/large orders</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Temperature-controlled shipping</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:shadow-xl hover:border-primary-400 transition-all duration-300">
+                        <div class="w-16 h-16 bg-primary-50 text-primary-600 rounded-lg flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-industry"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">Contract Manufacturing</h3>
+                        <p class="text-slate-600 mb-6 leading-relaxed">Partner with us for third-party manufacturing (CDMO) under your own brand name at WHO-GMP certified facilities.</p>
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Private Labeling / OEM</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Custom packaging design</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Batch size flexibility</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 hover:shadow-xl hover:border-primary-400 transition-all duration-300">
+                        <div class="w-16 h-16 bg-primary-50 text-primary-600 rounded-lg flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-file-signature"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">Regulatory Affairs</h3>
+                        <p class="text-slate-600 mb-6 leading-relaxed">Our dedicated regulatory team assists in product registration in the Ministry of Health (MOH) of your respective country.</p>
+                        <ul class="space-y-2 text-slate-600">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> ACTD / eCTD Dossiers</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> Free Sale Certificates (FSC)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-3 text-sm"></i> COPP & Legalization support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Product Categories List -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-primary-900 px-8 py-6">
+                        <h2 class="text-2xl font-bold text-white">Featured Product Forms</h2>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 p-8 gap-8">
+                        <div class="text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3022/3022834.png" class="w-16 h-16 mx-auto mb-3 opacity-80" alt="Tablets">
+                            <h4 class="font-bold text-slate-800">Tablets & Capsules</h4>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/883/883356.png" class="w-16 h-16 mx-auto mb-3 opacity-80" alt="Injections">
+                            <h4 class="font-bold text-slate-800">Injections (Dry/Liquid)</h4>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3022/3022874.png" class="w-16 h-16 mx-auto mb-3 opacity-80" alt="Syrups">
+                            <h4 class="font-bold text-slate-800">Syrups & Suspensions</h4>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2855/2855562.png" class="w-16 h-16 mx-auto mb-3 opacity-80" alt="Ointments">
+                            <h4 class="font-bold text-slate-800">Ointments & Creams</h4>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-6 text-center border-t border-slate-200">
+                        <p class="text-slate-600 mb-4">Looking for a specific API or Formulation?</p>
+                        <button onclick="navigateTo('contact')" class="bg-primary-600 text-white px-6 py-2 rounded font-semibold hover:bg-primary-700 transition-colors">
+                            Ask for COA / Specs
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: CONTACT -->
+        <div id="page-contact" class="page-content bg-slate-50 flex-grow">
+            <!-- Header -->
+            <div class="bg-primary-900 py-16 border-b border-primary-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Contact Our Export Team</h1>
+                    <p class="text-xl text-primary-200">Get pricing in 24 hours. Connect with us for your import requirements.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    
+                    <!-- Contact Information (Left Column) -->
+                    <div class="lg:col-span-1 space-y-8">
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6 border-b pb-4">Head Office</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center text-primary-600 mr-4 shrink-0">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-800">NEM GLOBAL LLP</p>
+                                        <p class="text-slate-600 text-sm mt-1">Pharmaceutical Export Zone,<br>Mumbai, Maharashtra, India - 400001</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center text-primary-600 mr-4 shrink-0">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-800">Email Us</p>
+                                        <a href="mailto:exports@nemglobal.com" class="text-primary-600 text-sm hover:underline mt-1 block">exports@nemglobal.com</a>
+                                        <a href="mailto:info@nemglobal.com" class="text-primary-600 text-sm hover:underline block">info@nemglobal.com</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 bg-primary-50 rounded-full flex items-center justify-center text-primary-600 mr-4 shrink-0">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-slate-800">Call/WhatsApp</p>
+                                        <p class="text-slate-600 text-sm mt-1">+91 22 4567 8900</p>
+                                        <p class="text-slate-600 text-sm">+91 98765 43210</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trust Badge -->
+                        <div class="bg-gradient-to-br from-primary-800 to-primary-900 p-8 rounded-xl shadow-sm text-white text-center">
+                            <i class="fa-solid fa-globe text-4xl text-secondary-500 mb-4"></i>
+                            <h4 class="text-xl font-bold mb-2">Exporting to 50+ Countries</h4>
+                            <p class="text-primary-200 text-sm">Africa, CIS, South East Asia, LATAM, and MENA regions.</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form (Right Column) -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-xl border border-slate-200 p-8 md:p-10">
+                            <div class="flex justify-between items-center mb-8">
+                                <h2 class="text-2xl font-bold text-slate-900">Quick Enquiry</h2>
+                                <span class="bg-secondary-100 text-secondary-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">24h Response</span>
+                            </div>
+                            
+                            <form onsubmit="event.preventDefault(); alert('Thank you for your enquiry. Our export team will contact you shortly.');" class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Company Name *</label>
+                                        <input type="text" required class="w-full px-4 py-3 rounded border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="Your Company Ltd.">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Contact Person *</label>
+                                        <input type="text" required class="w-full px-4 py-3 rounded border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="John Doe">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address *</label>
+                                        <input type="email" required class="w-full px-4 py-3 rounded border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="john@company.com">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Country *</label>
+                                        <input type="text" required class="w-full px-4 py-3 rounded border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="e.g. Kenya, UAE, Brazil">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Inquiry Type</label>
+                                    <select class="w-full px-4 py-3 rounded border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white">
+                                        <option>Importing Finished Products</option>
+                                        <option>Contract Manufacturing / OEM</option>
+                                        <option>API Sourcing</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Required Products & Quantities</label>
+                                    <textarea rows="4" class="w-full px-4 py-3 rounded border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white resize-none" placeholder="Please list products (e.g. Amoxicillin 500mg Caps - 100,000 boxes)"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-primary-700 hover:bg-primary-800 text-white font-bold py-4 px-8 rounded transition-colors shadow-md">
+                                    Submit Enquiry <i class="fa-solid fa-paper-plane ml-2"></i>
+                                </button>
+                                <p class="text-xs text-slate-500 text-center mt-4"><i class="fa-solid fa-lock mr-1"></i> Your information is secure and will not be shared.</p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-900 text-primary-200 py-12 border-t border-primary-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-sm">
+                <div class="col-span-1 md:col-span-1 bg-white p-4 rounded flex items-center justify-center">
+                    <img src="1000355321.jpg" alt="NEM Global LLP" class="h-16 w-auto object-contain">
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="navigateTo('home'); return false;" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" onclick="navigateTo('about'); return false;" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Certifications</a></li>
+                        <li><a href="#" onclick="navigateTo('contact'); return false;" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="navigateTo('services'); return false;" class="hover:text-white transition-colors">Medicine Exports</a></li>
+                        <li><a href="#" onclick="navigateTo('services'); return false;" class="hover:text-white transition-colors">Contract Manufacturing</a></li>
+                        <li><a href="#" onclick="navigateTo('services'); return false;" class="hover:text-white transition-colors">Regulatory Support</a></li>
+                        <li><a href="#" onclick="navigateTo('services'); return false;" class="hover:text-white transition-colors">Product List</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Compliance</h4>
+                    <div class="flex flex-col gap-2">
+                        <span class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-2"></i> WHO-GMP Certified</span>
+                        <span class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-2"></i> ISO 9001:2015</span>
+                        <span class="flex items-center"><i class="fa-solid fa-check text-secondary-500 mr-2"></i> GD Certified</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-primary-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
+                <p>&copy; 2026 NEM GLOBAL LLP. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="w-8 h-8 bg-primary-800 text-white rounded flex items-center justify-center hover:bg-primary-700"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="w-8 h-8 bg-primary-800 text-white rounded flex items-center justify-center hover:bg-primary-700"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // --- Navigation Logic ---
+        let currentPage = 'home';
+
+        function navigateTo(pageId) {
+            currentPage = pageId;
+
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show target page
+            const targetPage = document.getElementById('page-' + pageId);
+            if(targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Update desktop nav
+            const desktopLinks = document.querySelectorAll('.nav-link');
+            desktopLinks.forEach(link => {
+                if(link.getAttribute('data-target') === pageId) {
+                    link.classList.add('text-primary-700', 'border-primary-600');
+                    link.classList.remove('text-slate-600', 'border-transparent');
+                } else {
+                    link.classList.remove('text-primary-700', 'border-primary-600');
+                    link.classList.add('text-slate-600', 'border-transparent');
+                }
+            });
+
+            // Update mobile nav
+            const mobileLinks = document.querySelectorAll('.nav-link-mobile');
+            mobileLinks.forEach(link => {
+                if(link.getAttribute('data-target') === pageId) {
+                    link.classList.add('bg-primary-50', 'text-primary-700');
+                    link.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                } else {
+                    link.classList.remove('bg-primary-50', 'text-primary-700');
+                    link.classList.add('text-slate-600', 'hover:bg-slate-50');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Re-init slider if home
+            if(pageId === 'home') {
+                resetSliderTimer();
+            }
+        }
+
+        // Mobile menu toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        function toggleMobileMenu() {
+            menu.classList.toggle('hidden');
+            const icon = btn.querySelector('i');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+        btn.addEventListener('click', toggleMobileMenu);
+
+        // --- Slider Logic ---
+        let currentSlide = 0;
+        let slides = document.querySelectorAll('.slide');
+        let indicators = document.querySelectorAll('.indicator');
+        let sliderInterval;
+
+        function updateSlider() {
+            // Update Slides
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            // Update Indicators
+            indicators.forEach((ind, index) => {
+                if (index === currentSlide) {
+                    ind.classList.remove('bg-white/40');
+                    ind.classList.add('bg-white');
+                } else {
+                    ind.classList.remove('bg-white');
+                    ind.classList.add('bg-white/40');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+            resetSliderTimer();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+            resetSliderTimer();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetSliderTimer();
+        }
+
+        function resetSliderTimer() {
+            clearInterval(sliderInterval);
+            if(currentPage === 'home') {
+                sliderInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateTo('home');
+            updateSlider();
+            resetSliderTimer();
+        });
+
+    </script>
 </body>
 </html>
